@@ -203,7 +203,18 @@ AWS EC2 free tier: https://aws.amazon.com/ec2/
 - Need open ports: $MINECRAFT_SERVER_APP_PORT, $MINECRAFT_SERVER_RCON_PORT
 - Key.pem file
 
-1. **Copy and paste key.pem in the following directory**
+1. **Enable Port Forwarding and Gateway in SSH**
+
+    ```bash
+        sudo nano /etc/ssh/ssh_config
+    ```
+
+    ```
+        AllowTcpForwarding yes
+        GatewayPorts yes
+    ```
+
+2. **Copy and paste key.pem in the following directory**
     
     ```bash
         ./ssh/key.pem
@@ -211,7 +222,7 @@ AWS EC2 free tier: https://aws.amazon.com/ec2/
 
     **Note:** The key.pem file is used to access the server via SSH.
 
-2. **Initialize the SSH tunnel**
+3. **Initialize the SSH tunnel**
     
     ```bash
         bash ./tunnel/start.sh
