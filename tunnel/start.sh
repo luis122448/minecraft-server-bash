@@ -27,6 +27,7 @@ WantedBy=multi-user.target
 EOF
 
 echo "Copying minecraft-tunnel service"
+sudo rm -f /etc/systemd/system/minecraft-tunnel.service
 sudo cp ./tunnel/minecraft-tunnel.service /etc/systemd/system/minecraft-tunnel.service
 
 echo "Starting minecraft-tunnel service"
