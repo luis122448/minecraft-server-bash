@@ -37,6 +37,7 @@ fi
 ENV_FILE=".env"
 ENV_FILE_BAK=".env.bak"
 
+touch "$ENV_FILE" &&
 cp -r "$ENV_FILE" "$ENV_FILE_BAK" &&
 rm -rf "$ENV_FILE" &&
 touch "$ENV_FILE" &&
