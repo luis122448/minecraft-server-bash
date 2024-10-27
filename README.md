@@ -74,11 +74,11 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
     ```bash
         SERVER_LOCAL_HOST=
         SERVER_LOCAL_USER=
-        SERVER_HOST=
-        SERVER_USER=
+        SERVER_HOST= # Only required for server deployment
+        SERVER_USER= # Only required for server deployment
         RCON_PASSWORD=
-        MINECRAFT_SERVER_APP_PORT=
-        MINECRAFT_SERVER_RCON_PORT=
+        MINECRAFT_SERVER_APP_PORT=25565 # Default Minecraft Server Port
+        MINECRAFT_SERVER_RCON_PORT=25575 # Default Minecraft Server RCON Port
     ```
 
     Charge the environment variables:
@@ -167,11 +167,13 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
         192.168.100.***:$MINECRAFT_SERVER_APP_PORT
     ```
 
-4. **Access the Minecraft Server**
+4. **Access at cpnsole of the Minecraft Server**
     
     ```bash
-        mcrcon -H localhost -P 25575 -p $RCON_PASSWORD
+        mcrcon -H $IP -P $MINECRAFT_SERVER_RCON_PORT -p $RCON_PASSWORD
     ```
+
+    **Note:** The $IP variable is the IP address of the server, review step 3 for more information.
 
 ## Server Deployment
 
