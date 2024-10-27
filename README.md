@@ -59,9 +59,7 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 1. **Create a new directory**
 
     ```bash
-        sudo mkdir /var/www/minecraft-server
-
-        sudo mkdir /var/www/minecraft-server/configurations
+        sudo mkdir -p /var/www/minecraft-server/configurations
     ```
 
 2. **Change the owner of the directory**
@@ -207,7 +205,7 @@ AWS EC2 free tier: https://aws.amazon.com/ec2/
 1. **Copy and paste key.pem in the following directory**
     
     ```bash
-        ./tunnel/key.pem
+        ./ssh/key.pem
     ```
 
     **Note:** The key.pem file is used to access the server via SSH.

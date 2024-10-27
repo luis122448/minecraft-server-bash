@@ -12,7 +12,7 @@ TIMESTAMP=$(date +"%d%m%Y-%H%M%S")
 BACKUP_DIR="/var/www/minecraft-server/backups"
 
 mkdir -p "$BACKUP_DIR"
-BACKUP_FILE="$BACKUP_DIR/volumes-$timestamp.zip"
+BACKUP_FILE="$BACKUP_DIR/volumes-$TIMESTAMP.zip"
 
 echo "Creating backup of /volumes at $BACKUP_FILE"
 zip -r "$BACKUP_FILE" /var/www/minecraft-server/volumes

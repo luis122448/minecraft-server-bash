@@ -5,7 +5,7 @@
 *.key
 tunnel/minecraft-tunnel.service
 mcrcon/*
-mods/*
+mods/*.jar
+server/*.jar
 plugins/*
 worlds/*
-server/forge-installer.jar
