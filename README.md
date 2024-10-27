@@ -129,7 +129,7 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
     **Note:** The *.*.* version is the version of the Minecraft Forge Server. ( Example: 1.20.1 )
     **Important:** This version must match the version of the forge-installer.jar installer.
 
-## Local Development
+## Local Deployment
 
 1. **Execute the deployment script**
     
@@ -173,9 +173,9 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
         mcrcon -H localhost -P 25575 -p $RCON_PASSWORD
     ```
 
-## Server Development
+## Server Deployment
 
-For Server Development this requires an virtual machine in cloud service, Recommended: AWS EC2 free tier.
+For Server Deployment, this requires an virtual machine in cloud service, Recommended: AWS EC2 free tier.
 AWS EC2 free tier: https://aws.amazon.com/ec2/
 
 - Need open ports: $MINECRAFT_SERVER_APP_PORT, $MINECRAFT_SERVER_RCON_PORT
