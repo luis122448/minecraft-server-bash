@@ -143,7 +143,31 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
         sudo docker ps
     ```
 
-3. **Access the Minecraft Server**
+3. **Local IP Server**
+
+    1. **Access the minecraft server on the source machine**
+
+    ```bash
+        localhost:$MINECRAFT_SERVER_APP_PORT
+    ```
+
+    2. **Access the minecraft server in local network**
+   
+    Execute the following command to get the local IP server:
+
+    ```bash
+        hostname -I
+    ```
+
+    Choice the IP address matching the local network, in my case 192.168.100.***.
+
+    Connect to the Minecraft Server using the following address:
+
+    ```bash
+        192.168.100.***:$MINECRAFT_SERVER_APP_PORT
+    ```
+
+4. **Access the Minecraft Server**
     
     ```bash
         mcrcon -H localhost -P 25575 -p $RCON_PASSWORD
