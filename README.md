@@ -11,26 +11,47 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 - tree
 - zip
 - autossh
+- inetutils
 
 ## Installation
 
-### Install Applications Required ( Ubuntu )
+### Install Applications Required
 
-1.- **Install nrcon**
+1.- **Install nrcon ( Ubuntu )**
 
     ```bash
         cd /opt
 
         sudo apt-get update
-        sudo apt-get install gcc 
-        sudo apt-get install build-essential
-        sudo apt-get install make
+        sudo apt-get install gcc build-essential make
 
-        git clone git clone https://github.com/Tiiffi/mcrcon.git
-
+        # Clone the repository
+        sudo git clone https://github.com/Tiiffi/mcrcon.git
         cd /opt/mcrcon
-        make
+
+        sudo make
         sudo make install
+
+        # Verify the installation
+        mcrcon -help
+    ```
+
+2.- **Install nrcon ( Arch Linux )**
+
+    ```bash
+        cd /opt
+
+        sudo pacman -S gcc make git
+
+        # Clone the repository
+        sudo git clone https://github.com/Tiiffi/mcrcon.git
+        cd /opt/mcrcon
+
+        sudo make
+        sudo make install
+
+        # Verify the installation
+        mcrcon -help
     ```
 
 ### Install the Minecraft Server

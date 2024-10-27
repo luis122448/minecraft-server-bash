@@ -1,5 +1,5 @@
 #!/bin/bash
-ser -e
+set -e
 
 # Environment variables
 source /etc/environment
