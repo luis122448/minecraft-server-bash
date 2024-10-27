@@ -18,7 +18,7 @@ After=network.target
 
 [Service]
 User=${SERVER_LOCAL_USER}
-ExecStart=/usr/bin/autossh -o StrictHostKeyChecking=no -i /var/www/minecraft-server/configurations/minecraft-server-bash/ssh/key.pem -N -R ${MINECRAFT_SERVER_APP_PORT}:localhost:${MINECRAFT_SERVER_APP_PORT} -R ${MINECRAFT_SERVER_RCON_PORT}:localhost:${MINECRAFT_SERVER_RCON_PORT} ${SERVER_USER}@${SERVER_HOST}
+ExecStart=/usr/bin/autossh -M 0 -o StrictHostKeyChecking=no -i /var/www/minecraft-server/configurations/minecraft-server-bash/ssh/key.pem -N -R ${MINECRAFT_SERVER_APP_PORT}:localhost:${MINECRAFT_SERVER_APP_PORT} -R ${MINECRAFT_SERVER_RCON_PORT}:localhost:${MINECRAFT_SERVER_RCON_PORT} ${SERVER_USER}@${SERVER_HOST}
 Restart=always
 RestartSec=10
 Environment=AUTOSSH_GATETIME=0
