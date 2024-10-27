@@ -1,0 +1,11 @@
+*.env
+*.env.bak
+*.pem
+*.cert
+*.key
+tunnel/minecraft-tunnel.service
+mcrcon/*
+mods/*
+plugins/*
+worlds/*
+server/forge-installer.jar

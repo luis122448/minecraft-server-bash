@@ -1,0 +1,15 @@
+services:
+  mc:
+    image: itzg/minecraft-server
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    ports:
+      - "$MINECRAFT_SERVER_APP_PORT:25565"
+      - "$MINECRAFT_SERVER_RCON_PORT:25575"
+    restart: unless-stopped
+    volumes:
+      - /var/www/minecraft-server/volumes/data:/data
+      - /var/www/minecraft-server/volumes/data/scripts:/scripts
+    container_name: minecraft-server
