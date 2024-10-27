@@ -95,7 +95,7 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
         cp /path/to/forge-*.**.*-**.*.**-installer.jar ./server/forge-installer.jar
     ```
 
-    **Note:** The forge.jar installer is used to install the Minecraft Forge Server. Check the version of the forge.jar installer in the official website: https://files.minecraftforge.net/
+    **Note:** The forge.jar installer is used to install the Minecraft Forge Server. Check the version of the forge.jar installer in the official website: https://files.minecraftforge.net/ ( Example: forge-1.20.6-50.1.20-installer.jar )
 
     **Important:** Rename forge installer to forge-installer.jar
 
@@ -107,13 +107,26 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 
     **Important:** The mods collection must match the version of the Minecraft Forge Server.
 
+    **Example:** 
+
+    ```bash
+        tree ./mods
+
+        ./mods
+        ├── alexsmobs-1.22.8.jar
+        ├── citadel-2.5.4-1.20.1.jar
+        ├── Xaeros_Minimap_24.5.0_Forge_1.20.jar
+        ├── XaerosWorldMap_1.39.0_Forge_1.20.jar
+        └── ...
+    ```
+
 7. **Execute the installation script**
     
     ```bash
         bash install.sh *.**.*
     ```
 
-    **Note:** The *.*.* version is the version of the Minecraft Forge Server.
+    **Note:** The *.*.* version is the version of the Minecraft Forge Server. ( Example: 1.20.1 )
     **Important:** This version must match the version of the forge-installer.jar installer.
 
 ## Local Development
