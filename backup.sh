@@ -16,7 +16,7 @@ BACKUP_FILE="$BACKUP_DIR/volumes-$TIMESTAMP.zip"
 
 echo "Creating backup of /volumes at $BACKUP_FILE"
 cd /var/www/minecraft-server/volumes/
-zip -r "$BACKUP_FILE" /*
+zip -r "$BACKUP_FILE" .
 
 echo "Removing backups older than 30 days"
 find "$BACKUP_DIR" -name "*.zip" -type f -mtime +30 -exec rm {} \;
@@ -24,4 +24,5 @@ find "$BACKUP_DIR" -name "*.zip" -type f -mtime +30 -exec rm {} \;
 echo "Backup completed successfully"
 
 # Start containers
+cd /var/www/minecraft-server/configurations/minecraft-server-bash/
 sudo docker compose up --build --force-recreate --no-deps -d
