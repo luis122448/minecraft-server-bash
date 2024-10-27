@@ -103,3 +103,6 @@ else
   mkdir -p /var/www/minecraft-server/volumes/data/server/nogui/mods
   cp -r ./mods /var/www/minecraft-server/volumes/data/server/nogui
 fi
+
+# Copy server icon
+cp -r ./resources/icon.png /var/www/minecraft-server/volumes/data/icon.png
