@@ -5,7 +5,7 @@ set -e
 source /etc/environment
 
 # Key permissions
-chmod 600 /var/www/minecraft-server/configuration/minecraft-server-bash/ssh/key.pem
+chmod 600 /var/www/minecraft-server/configurations/minecraft-server-bash/ssh/key.pem
 
 # Tunnel service
 AUTOSSH="./tunnel/minecraft-tunnel.service"
@@ -18,7 +18,7 @@ After=network.target
 
 [Service]
 User=${SERVER_LOCAL_USER}
-ExecStart=/usr/bin/ssh -i /var/www/minecraft-server/configuration/minecraft-server-bash/ssh/key.pem -N -R ${MINECRAFT_SERVER_APP_PORT}:localhost:${MINECRAFT_SERVER_APP_PORT} -R ${MINECRAFT_SERVER_RCON_PORT}:localhost:${MINECRAFT_SERVER_RCON_PORT} ${SERVER_USER}@${SERVER_HOST}
+ExecStart=/usr/bin/ssh -i /var/www/minecraft-server/configurations/minecraft-server-bash/ssh/key.pem -N -R ${MINECRAFT_SERVER_APP_PORT}:localhost:${MINECRAFT_SERVER_APP_PORT} -R ${MINECRAFT_SERVER_RCON_PORT}:localhost:${MINECRAFT_SERVER_RCON_PORT} ${SERVER_USER}@${SERVER_HOST}
 Restart=always
 RestartSec=10
 
