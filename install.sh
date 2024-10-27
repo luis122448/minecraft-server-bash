@@ -10,10 +10,30 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+# Create directories if not exists
+if [ ! -d "/var/www/minecraft-server/volumes" ]; then
+    sudo mkdir -p /var/www/minecraft-server/volumes
+fi
+
+if [ ! -d "/var/www/minecraft-server/backups" ]; then
+    sudo mkdir -p /var/www/minecraft-server/backups
+fi
+
+# Verify if environment variables are provided
+if [ -z "$MINECRAFT_SERVER_APP_PORT" ] && [ -z "$MINECRAFT_SERVER_RCON_PORT" ]; then
+    echo "MINECRAFT_SERVER_APP_PORT and MINECRAFT_SERVER_RCON_PORT are required"
+    exit 1000
+fi
+
+if [ -z "$RCON_PASSWORD" ]; then
+    echo "RCON_PASSWORD is required"
+    exit 1001
+fi
+
+# Backup environment file and create a new one
 ENV_FILE=".env"
 ENV_FILE_BAK=".env.bak"
 
-# Backup environment file and create a new one
 cp -r "$ENV_FILE" "$ENV_FILE_BAK" &&
 rm -rf "$ENV_FILE" &&
 touch "$ENV_FILE" &&
@@ -65,12 +85,12 @@ EOF
 # Backup server data
 bash backup.sh &&
 
+# Remove server data
 rm -rf /var/www/minecraft-server/volumes/data &&
 
-echo "Zipping server config Forge"
+# Initialize server data
+echo "Initialize server data ..."
 zip -r ./server/server.zip ./server &&
-
-echo "Copying server config Forge"
 mkdir -p /var/www/minecraft-server/volumes/data/mods &&
 cp -r ./server/server.zip /var/www/minecraft-server/volumes/data/mods/server.zip &&
 rm -rf ./server/server.zip &&

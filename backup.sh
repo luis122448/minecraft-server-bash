@@ -7,11 +7,11 @@ source /etc/environment
 # Stop containers
 sudo docker compose down
 
-timestamp=$(date +"%d%m%Y-%H%M%S")
-
+# Backup process
+TIMESTAMP=$(date +"%d%m%Y-%H%M%S")
 BACKUP_DIR="/var/www/minecraft-server/backups"
-mkdir -p "$BACKUP_DIR"
 
+mkdir -p "$BACKUP_DIR"
 BACKUP_FILE="$BACKUP_DIR/volumes-$timestamp.zip"
 
 echo "Creating backup of /volumes at $BACKUP_FILE"

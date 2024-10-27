@@ -105,11 +105,16 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
         ./mods
     ```
 
+    **Important:** The mods collection must match the version of the Minecraft Forge Server.
+
 7. **Execute the installation script**
     
     ```bash
         bash install.sh *.**.*
     ```
+
+    **Note:** The *.*.* version is the version of the Minecraft Forge Server.
+    **Important:** This version must match the version of the forge-installer.jar installer.
 
 ## Local Development
 
@@ -163,3 +168,15 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
     ```bash
         bash restore.sh volume-DDMMYYYY-HHMMSS.zip
     ```
+
+3. **Update mods collection**
+    
+    Update the mods collection in the /var/www/minecraft-server/configurations/mods directory.
+    And execute the restart script.
+
+    ```bash
+        bash restart.sh
+    ```
+
+    **Note:** This proccess automatically generaction backup of the server.
+    **Important:** This process stops the Minecraft Server.
