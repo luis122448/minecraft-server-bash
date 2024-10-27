@@ -151,6 +151,12 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 
 ## Server Development
 
+For Server Development this requires an virtual machine in cloud service, Recommended: AWS EC2 free tier.
+AWS EC2 free tier: https://aws.amazon.com/ec2/
+
+- Need open ports: $MINECRAFT_SERVER_APP_PORT, $MINECRAFT_SERVER_RCON_PORT
+- Key.pem file
+
 1. **Copy and paste key.pem in the following directory**
     
     ```bash
