@@ -4,6 +4,10 @@ set -e
 # Environment variables
 source /etc/environment
 
+# Key permissions
+chmod 600 /var/www/minecraft-server/configuration/minecraft-docker/ssh/key.pem
+
+# Tunnel service
 AUTOSSH="./tunnel/minecraft-tunnel.service"
 rm -f "$AUTOSSH" &&
 
