@@ -4,6 +4,9 @@ set -e
 # Environment variables
 source /etc/environment
 
+# Change owner of the directory
+sudo chown -R $USER:$USER /var/www/minecraft-server
+
 # Verify if version is provided
 if [ -z "$1" ]; then
     echo "Version not provided $0 <version>"

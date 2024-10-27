@@ -12,6 +12,7 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 - zip
 - autossh
 - inetutils
+- docker-compose
 
 ## Installation
 
