@@ -149,7 +149,7 @@ cd /var/www/minecraft-server/configurations/
 sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type>
 
 # Example
-sudo bash ./install.sh -v 1.21.5 -m vanilla -t survival
+sudo bash ./install.sh -v 1.21.5 -m survival -t vanilla
 ```
 
 **Note:**
