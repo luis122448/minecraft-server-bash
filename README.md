@@ -4,6 +4,7 @@
 
 This project is a Minecraft Forge Server that runs in a Docker container. The server is deployed on a remote server using an SSH tunnel. The project includes a deployment script that automates the deployment process.
 
+---
 ## Requirements
 
 - docker
@@ -14,187 +15,190 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 - inetutils
 - docker-compose
 
-## Installation
+---
+## Install Applications Required
 
-### Install Applications Required
+- #### Install nrcon ( Ubuntu )
 
-1.- **Install nrcon ( Ubuntu )**
+```bash
+cd /opt
 
-    ```bash
-        cd /opt
+sudo apt-get update
+sudo apt-get install gcc build-essential make
 
-        sudo apt-get update
-        sudo apt-get install gcc build-essential make
+# Clone the repository
+sudo git clone https://github.com/Tiiffi/mcrcon.git
+cd /opt/mcrcon
 
-        # Clone the repository
-        sudo git clone https://github.com/Tiiffi/mcrcon.git
-        cd /opt/mcrcon
+sudo make
+sudo make install
 
-        sudo make
-        sudo make install
+# Verify the installation
+mcrcon -help
+```
 
-        # Verify the installation
-        mcrcon -help
-    ```
+- #### Install nrcon ( Arch Linux )
 
-2.- **Install nrcon ( Arch Linux )**
+```bash
+cd /opt
 
-    ```bash
-        cd /opt
+sudo pacman -S gcc make git
 
-        sudo pacman -S gcc make git
+# Clone the repository
+sudo git clone https://github.com/Tiiffi/mcrcon.git
+cd /opt/mcrcon
 
-        # Clone the repository
-        sudo git clone https://github.com/Tiiffi/mcrcon.git
-        cd /opt/mcrcon
+sudo make
+sudo make install
 
-        sudo make
-        sudo make install
+# Verify the installation
+mcrcon -help
+```
 
-        # Verify the installation
-        mcrcon -help
-    ```
+---
+## Setup and Installation
 
-### Install the Minecraft Server
+### Step 1: Create Project Directory 
 
-1. **Create a new directory**
+```bash
+sudo mkdir -p /var/www/minecraft-server/configurations
+```
 
-    ```bash
-        sudo mkdir -p /var/www/minecraft-server/configurations
-    ```
-
-2. **Change the owner of the directory**
+### Step 2: Set Directory Ownership
    
-    ```bash
-        sudo chown -R $USER:$USER /var/www/minecraft-server
-    ```
+```bash
+sudo chown -R $USER:$USER /var/www/minecraft-server
+```
 
-3. **Clone the repository**
+### Step 3: Clone the Repository
    
-    ```bash
-        cd /var/www/minecraft-server/configurations
+```bash
+cd /var/www/minecraft-server/configurations
+git clone git@github.com:luis122448/minecraft-server-bash.git
+```
 
-        git clone git@github.com:luis122448/minecraft-server-bash.git
-    ```
+### Step 5: Define Environment Variables
 
-4. **Define the environment variables**
+Environment variables are used by the scripts and Docker Engine to container the server and deployment settings.
 
-    First, define the IP address of the server for $SERVER_LOCAL_HOST variable:
+```bash
+sudo nano /etc/environment
+```
+
+Add these lines, replacing placeholder values
+
+```bash
+SERVER_LOCAL_HOST="<Your local machine's IP address for Docker binding>" # Usually the host's primary local IP (e.g., 192.168.1.100) or 127.0.0.1. You might get it using `hostname -I`. Avoid relying on dynamic IPs like docker0 unless necessary for specific networking setups.
+SERVER_LOCAL_USER="$USER" # Your local username
+SERVER_HOST="" # REQUIRED FOR SERVER DEPLOYMENT: The public IP or hostname of your remote server (e.g., ec2-XX-YY-ZZ-WW.compute-1.amazonaws.com)
+SERVER_USER="" # REQUIRED FOR SERVER DEPLOYMENT: The SSH username for your remote server (e.g., 'ubuntu' for Ubuntu EC2 instances)
+RCON_PASSWORD="<Generate a strong password>" # REQUIRED: Password for RCON access
+MINECRAFT_SERVER_APP_PORT=25565 # Default Minecraft Server Port (can be changed)
+MINECRAFT_SERVER_RCON_PORT=25575 # Default Minecraft Server RCON Port (can be changed)
+```
+
+Load the variables into your current session
+
+```bash
+source /etc/environment
+```
+
+**Note:** The `$SERVER_HOST` and `$SERVER_USER` variables are used to access the server via SSH.
+
+### Step 5: Add Forge Installer ( Optional )
+
+Download the desired Minecraft Forge Installer JAR file from the official [minecraftforge](https://files.minecraftforge.net/net/minecraftforge/forge/)
+
+Please the downloaded file into the `./server/` directory of the cloned repository and rename it to `forge-installer.jar`
+
+```bash
+cp /path/to/forge-*.**.*-**.*.**-installer.jar ./server/forge-installer.jar
+```
+
+**Important:** Ensure the Forge version you download is compatible with the Minecraft version you intend to use.
+
+### Step 6: Add Your Mods
+
+Place all your desired `mod.jar` files into the `./mods/` directory within the cloned repository.
+
+```bash
+# Example: Copy mods from a different location
+cp /path/to/your/mods/*.jar /var/www/minecraft-server/configurations/mods/
+```
+**Important:** All mods must be compatible with the specific version of Minecraft Forge you are installing. Incompatible mods can cause the server to crash.
+
+You can use the tree command to visualize the structure (optional):
+
+```bash
+tree ./mods
+
+./mods
+├── alexsmobs-1.22.8.jar
+├── citadel-2.5.4-1.20.1.jar
+├── Xaeros_Minimap_24.5.0_Forge_1.20.jar
+├── XaerosWorldMap_1.39.0_Forge_1.20.jar
+└── ...
+```
+
+### Step 7: Execute the Installation Script
     
-    ```bash
-        ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+' 
-    ```
+Navigate to the project's configurations directory and run the `install.sh` script. 
 
-    Then, define the environment variables in /etc/environment:
+```bash
+cd /var/www/minecraft-server/configurations/
+sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type>
 
-    ```bash
-        sudo nano /etc/environment
-    ```
+# Example
+sudo bash ./install.sh -v 1.21.5 -m vanilla -t survival
+```
 
-    ```bash
-        SERVER_LOCAL_HOST=
-        SERVER_LOCAL_USER=
-        SERVER_HOST= # Only required for server deployment
-        SERVER_USER= # Only required for server deployment
-        RCON_PASSWORD=
-        MINECRAFT_SERVER_APP_PORT=25565 # Default Minecraft Server Port
-        MINECRAFT_SERVER_RCON_PORT=25575 # Default Minecraft Server RCON Port
-    ```
+**Note:**
+- `-v` `<minecraft_version>`: The target Minecraft version (e.g., 1.20.1, 1.20.6, 1.21.5). This must match the version of the forge-installer.jar you placed in ./server/.
+- `-m` `<modpack_name>`: A name for your modpack (e.g., forge-custom, my-awesome-mods). Used for internal naming.
+- `-t` `<server_type>`: The type of server (e.g., survival, creative).
 
-    Charge the environment variables:
-
-    ```bash
-        source /etc/environment
-    ```
-
-    **Note:** The $SERVER_HOST and $SERVER_USER variables are used to access the server via SSH.
-
-5. **Copy and Paste forge-installer.jar installer in the following directory**
-
-    ```bash
-        cp /path/to/forge-*.**.*-**.*.**-installer.jar ./server/forge-installer.jar
-    ```
-
-    **Note:** The forge.jar installer is used to install the Minecraft Forge Server. Check the version of the forge.jar installer in the official website: https://files.minecraftforge.net/ ( Example: forge-1.20.6-50.1.20-installer.jar )
-
-    **Important:** Rename forge installer to forge-installer.jar
-
-6. **Copy and Paste your mods collection in the following directory**
-
-    ```bash
-        ./mods
-    ```
-
-    **Important:** The mods collection must match the version of the Minecraft Forge Server.
-
-    **Example:** 
-
-    ```bash
-        tree ./mods
-
-        ./mods
-        ├── alexsmobs-1.22.8.jar
-        ├── citadel-2.5.4-1.20.1.jar
-        ├── Xaeros_Minimap_24.5.0_Forge_1.20.jar
-        ├── XaerosWorldMap_1.39.0_Forge_1.20.jar
-        └── ...
-    ```
-
-7. **Execute the installation script**
-    
-    ```bash
-        bash install.sh *.**.*
-    ```
-
-    **Note:** The *.*.* version is the version of the Minecraft Forge Server. ( Example: 1.20.1 )
-    **Important:** This version must match the version of the forge-installer.jar installer.
-
+---
 ## Local Deployment
 
-1. **Execute the deployment script**
+### Run the Deployment Script
+
+```bash
+bash deploy.sh
+```
+
+### Check if the Docker container is running. Look for a container based on your project's image.
     
-    ```bash
-        bash deploy.sh
-    ```
+```bash
+sudo docker ps
+```
 
-2. **Verify the deployment**
+### Access the minecraft server on the source machine
+
+```bash
+localhost:$MINECRAFT_SERVER_APP_PORT
+```
+
+**Note** The Minecraft server application port `$MINECRAFT_SERVER_APP_PORT` and RCON port `$MINECRAFT_SERVER_RCON_PORT` must be open in the firewall of your remote server and potentially
+
+### Access the minecraft server in local network
+
+Execute the following command to get the local IP server `hostname -I`
+Choice the IP address matching the local network, in my case `192.168.100.161`.
+Connect to the Minecraft Server using the following address:
+
+```bash
+192.168.100.161:$MINECRAFT_SERVER_APP_PORT
+```
+
+### Access at cpnsole of the Minecraft Server
     
-    ```bash
-        sudo docker ps
-    ```
+```bash
+mcrcon -H $IP -P $MINECRAFT_SERVER_RCON_PORT -p $RCON_PASSWORD
+```
 
-3. **Local IP Server**
+**Note:** The `$IP` variable is the `IP` address of the server, review before step for more information.
 
-    1. **Access the minecraft server on the source machine**
-
-    ```bash
-        localhost:$MINECRAFT_SERVER_APP_PORT
-    ```
-
-    2. **Access the minecraft server in local network**
-   
-    Execute the following command to get the local IP server:
-
-    ```bash
-        hostname -I
-    ```
-
-    Choice the IP address matching the local network, in my case 192.168.100.***.
-
-    Connect to the Minecraft Server using the following address:
-
-    ```bash
-        192.168.100.***:$MINECRAFT_SERVER_APP_PORT
-    ```
-
-4. **Access at cpnsole of the Minecraft Server**
-    
-    ```bash
-        mcrcon -H $IP -P $MINECRAFT_SERVER_RCON_PORT -p $RCON_PASSWORD
-    ```
-
-    **Note:** The $IP variable is the IP address of the server, review step 3 for more information.
-
+---
 ## Server Deployment
 
 For Server Deployment, this requires an virtual machine in cloud service, Recommended: AWS EC2 free tier.
@@ -205,54 +209,54 @@ AWS EC2 free tier: https://aws.amazon.com/ec2/
 
 1. **Enable Port Forwarding and Gateway in SSH**
 
-    ```bash
-        sudo nano /etc/ssh/ssh_config
-    ```
+```bash
+sudo nano /etc/ssh/ssh_config
+```
 
-    ```
-        AllowTcpForwarding yes
-        GatewayPorts yes
-    ```
+```
+AllowTcpForwarding yes
+GatewayPorts yes
+```
 
 2. **Copy and paste key.pem in the following directory**
     
-    ```bash
-        ./ssh/key.pem
-    ```
+```bash
+./ssh/key.pem
+```
 
-    **Note:** The key.pem file is used to access the server via SSH.
+**Note:** The key.pem file is used to access the server via SSH.
 
 3. **Initialize the SSH tunnel**
     
-    ```bash
-        bash ./tunnel/start.sh
-    ```
+```bash
+bash ./tunnel/start.sh
+```
 
 ## Maintenance
 
 1. **Backup the Minecraft Server**
     
-    ```bash
-        bash backup.sh
-    ```
+```bash
+bash backup.sh
+```
 
-    **Note:** The backup is stored in the /var/www/minecraft-server/backups directory.
-    **Important:** This process stops the Minecraft Server.
+**Note:** The backup is stored in the /var/www/minecraft-server/backups directory.
+**Important:** This process stops the Minecraft Server.
 
 2. **Restore the Minecraft Server**
     
-    ```bash
-        bash restore.sh volume-DDMMYYYY-HHMMSS.zip
-    ```
+```bash
+bash restore.sh volume-DDMMYYYY-HHMMSS.zip
+```
 
 3. **Update mods collection**
     
-    Update the mods collection in the /var/www/minecraft-server/configurations/mods directory.
-    And execute the restart script.
+Update the mods collection in the /var/www/minecraft-server/configurations/mods directory.
+And execute the restart script.
 
-    ```bash
-        bash restart.sh
-    ```
+```bash
+bash restart.sh
+```
 
-    **Note:** This proccess automatically generaction backup of the server.
-    **Important:** This process stops the Minecraft Server.
+**Note:** This proccess automatically generaction backup of the server.
+**Important:** This process stops the Minecraft Server.
