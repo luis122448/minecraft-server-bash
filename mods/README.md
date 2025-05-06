@@ -1,12 +1,15 @@
-# Copy and Paste your mods collection in the following directory
+# Adding Mods to your Forge Server
+
+To install mods, copy your mod files (`.jar` files) directly into the `./mods` directory located in your Minecraft Forge server's main folder.
 
 ```bash
-    ./mods
+# Place your .jar files here
+./mods/
 ```
 
-**Important:** The mods collection must match the version of the Minecraft Forge Server.
+**⚠️ IMPORTANT!** Ensure each mod's version is compatible with the specific Minecraft and Forge version your server is running. Incompatible mods can cause server startup failures or in-game issues.
 
-**Example:** 
+**Example `./mods` Directory Content:**
 
 ```bash
     tree ./mods
