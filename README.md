@@ -74,7 +74,7 @@ sudo chown -R $USER:$USER /var/www/minecraft-server
    
 ```bash
 cd /var/www/minecraft-server/configurations
-git clone git@github.com:luis122448/minecraft-server-bash.git
+git clone https://github.com/luis122448/minecraft-server-bash.git
 ```
 
 ### Step 5: Define Environment Variables
@@ -88,13 +88,9 @@ sudo nano /etc/environment
 Add these lines, replacing placeholder values
 
 ```bash
-SERVER_LOCAL_HOST="<Your local machine's IP address for Docker binding>" # Usually the host's primary local IP (e.g., 192.168.1.100) or 127.0.0.1. You might get it using `hostname -I`. Avoid relying on dynamic IPs like docker0 unless necessary for specific networking setups.
-SERVER_LOCAL_USER="$USER" # Your local username
-SERVER_HOST="" # REQUIRED FOR SERVER DEPLOYMENT: The public IP or hostname of your remote server (e.g., ec2-XX-YY-ZZ-WW.compute-1.amazonaws.com)
-SERVER_USER="" # REQUIRED FOR SERVER DEPLOYMENT: The SSH username for your remote server (e.g., 'ubuntu' for Ubuntu EC2 instances)
 RCON_PASSWORD="<Generate a strong password>" # REQUIRED: Password for RCON access
-MINECRAFT_SERVER_APP_PORT=25565 # Default Minecraft Server Port (can be changed)
-MINECRAFT_SERVER_RCON_PORT=25575 # Default Minecraft Server RCON Port (can be changed)
+MINECRAFT_SERVER_APP_PORT=25565
+MINECRAFT_SERVER_RCON_PORT=25575
 ```
 
 Load the variables into your current session
@@ -149,7 +145,7 @@ cd /var/www/minecraft-server/configurations/
 sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type>
 
 # Example
-sudo bash ./install.sh -v 1.21.5 -m survival -t vanilla
+sudo bash ./install.sh -v 1.21.5 -m survival -t vanilla -r 4G
 ```
 
 **Note:**

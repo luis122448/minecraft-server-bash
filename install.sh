@@ -8,6 +8,7 @@ MC_MODE=""    # Game mode (survival, creative, adventure, spectator)
 MC_TYPE=""    # Server type (vanilla, forge)
 ENV_FILE=".env"
 ENV_FILE_BAK=".env.bak"
+RAM_SERVER="4G" # Default RAM allocation
 SERVER_DIR="/var/www/minecraft-server" # Base server directory
 
 # --- Functions ---
@@ -22,6 +23,7 @@ show_usage() {
     echo "  -v <version>  Specify the Minecraft version (e.g., 1.20.1)"
     echo "  -m <mode>     Specify the game mode (survival, creative, adventure, spectator)"
     echo "  -t <type>     Specify the server type (vanilla, forge)"
+    echo "  -r <ram>      Specify the RAM allocation for the server (default: ${RAM_SERVER})"
     echo "  -h            Show this help message"
     echo ""
     echo "If options are not provided, the script will prompt for them."
@@ -84,7 +86,7 @@ prompt_input() {
 source /etc/environment || echo "Warning: Could not source /etc/environment"
 
 # --- Argument Parsing ---
-while getopts ":v:m:t:h" opt; do
+while getopts ":v:m:t:h:r" opt; do
     case $opt in
         v)
             MC_VERSION="$OPTARG"
@@ -94,6 +96,9 @@ while getopts ":v:m:t:h" opt; do
             ;;
         t)
             MC_TYPE="$OPTARG"
+            ;;
+        r)
+            RAM_SERVER="$OPTARG"
             ;;
         h)
             show_usage
@@ -143,6 +148,7 @@ echo "--- Configuration Summary ---"
 echo "Version: $MC_VERSION"
 echo "Mode:    $MC_MODE"
 echo "Type:    $MC_TYPE"
+echo "RAM:     $RAM_SERVER"
 echo "---------------------------"
 echo ""
 
@@ -216,9 +222,9 @@ ENV_CONTENT+="ENABLE_RCON=true\n"
 ENV_CONTENT+="RCON_PASSWORD=${RCON_PASSWORD}\n"
 ENV_CONTENT+="\n"
 ENV_CONTENT+="# Memory Allocation\n"
-ENV_CONTENT+="MEMORY=4G\n"      # Total memory for container
-ENV_CONTENT+="INIT_MEMORY=2G\n" # Initial Java heap size
-ENV_CONTENT+="MAX_MEMORY=4G\n"  # Maximum Java heap size
+ENV_CONTENT+="MEMORY=${RAM_SERVER}\n"      # Total memory for container
+ENV_CONTENT+="INIT_MEMORY=${RAM_SERVER}\n" # Initial Java heap size
+ENV_CONTENT+="MAX_MEMORY=${RAM_SERVER}\n"  # Maximum Java heap size
 ENV_CONTENT+="\n"
 ENV_CONTENT+="TZ=America/Lima\n" # Timezone
 ENV_CONTENT+="\n"
@@ -228,8 +234,6 @@ ENV_CONTENT+="DIFFICULTY=hard\n"
 ENV_CONTENT+="ALLOW_CHEATS=true\n" # Assuming cheats allowed for setup/admin
 ENV_CONTENT+="MAX_PLAYERS=20\n"
 ENV_CONTENT+="ONLINE_MODE=false\n" # Be cautious with false unless intended for offline mode/LAN
-ENV_CONTENT+="SERVER_HOST=${SERVER_HOST}\n" # Assuming this is set in environment
-ENV_CONTENT+="SERVER_USER=${SERVER_USER}\n" # Assuming this is set in environment
 ENV_CONTENT+="ICON=/data/icon.png\n" # Path inside the container volume
 ENV_CONTENT+="ALLOW_FLIGHT=true\n"
 ENV_CONTENT+="\n"
