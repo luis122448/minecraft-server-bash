@@ -246,6 +246,16 @@ cp -f "$ENV_FILE" "$ENV_FILE_BAK" 2>/dev/null || echo "No existing $ENV_FILE to 
 printf "%b" "$ENV_CONTENT" > "$ENV_FILE" || { echo "Error: Failed to write $ENV_FILE."; exit 1; }
 echo ".env file generated."
 
+# --- Update server/start.sh ---
+echo "Updating memory allocation in server/start.sh..."
+if [ -f "./server/start.sh" ]; then
+    # Use sed to replace the MEMORY variable, handling potential quotes
+    sed -i "s/^MEMORY=.*$/MEMORY=\"${RAM_SERVER}\"/" "./server/start.sh" || { echo "Error: Failed to update server/start.sh."; exit 1; }
+    echo "server/start.sh updated with MEMORY=${RAM_SERVER}."
+else
+    echo "Warning: ./server/start.sh not found. Skipping update."
+fi
+
 # --- Server Data Management ---
 
 # Backup server data (assuming backup.sh exists and works)
