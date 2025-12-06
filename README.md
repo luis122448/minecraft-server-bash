@@ -77,30 +77,6 @@ cd /var/www/minecraft-server/configurations
 git clone https://github.com/luis122448/minecraft-server-bash.git
 ```
 
-### Step 5: Define Environment Variables
-
-Environment variables are used by the scripts and Docker Engine to container the server and deployment settings.
-
-```bash
-sudo nano /etc/environment
-```
-
-Add these lines, replacing placeholder values
-
-```bash
-RCON_PASSWORD="<Generate a strong password>" # REQUIRED: Password for RCON access
-MINECRAFT_SERVER_APP_PORT=25565
-MINECRAFT_SERVER_RCON_PORT=25575
-```
-
-Load the variables into your current session
-
-```bash
-source /etc/environment
-```
-
-**Note:** The `$SERVER_HOST` and `$SERVER_USER` variables are used to access the server via SSH.
-
 ### Step 5: Add Forge Installer ( Optional )
 
 Download the desired Minecraft Forge Installer JAR file from the official [minecraftforge](https://files.minecraftforge.net/net/minecraftforge/forge/)
@@ -142,10 +118,10 @@ Navigate to the project's configurations directory and run the `install.sh` scri
 
 ```bash
 cd /var/www/minecraft-server/configurations/
-sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type>
+sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type> -r <ram_server> -p <password>
 
 # Example
-sudo bash ./install.sh -v 1.21.5 -m survival -t vanilla -r 4G
+sudo bash ./install.sh -v 1.20.1 -m survival -t vanilla -r 12G -p 941480149401
 ```
 
 **Note:**

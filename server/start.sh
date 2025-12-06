@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MEMORY="12G"
+MEMORY=""
 
 FORGE_JAR="forge-installer.jar"
 

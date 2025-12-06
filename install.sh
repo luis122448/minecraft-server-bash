@@ -10,6 +10,7 @@ ENV_FILE=".env"
 ENV_FILE_BAK=".env.bak"
 RAM_SERVER="4G" # Default RAM allocation
 SERVER_DIR="/var/www/minecraft-server" # Base server directory
+RCON_PASSWORD="" # RCON password (should be set in environment)
 
 # --- Functions ---
 
@@ -24,6 +25,7 @@ show_usage() {
     echo "  -m <mode>     Specify the game mode (survival, creative, adventure, spectator)"
     echo "  -t <type>     Specify the server type (vanilla, forge)"
     echo "  -r <ram>      Specify the RAM allocation for the server (default: ${RAM_SERVER})"
+    echo "  -p <password> Specify the RCON password"
     echo "  -h            Show this help message"
     echo ""
     echo "If options are not provided, the script will prompt for them."
@@ -100,6 +102,9 @@ while getopts ":v:m:t:h:r" opt; do
         r)
             RAM_SERVER="$OPTARG"
             ;;
+        p)
+            RCON_PASSWORD="$OPTARG"
+            ;;
         h)
             show_usage
             exit 0
@@ -173,19 +178,6 @@ if [ ! -d "$SERVER_DIR/backups" ]; then
 fi
 echo "Directories checked."
 
-# Verify if required environment variables are provided
-echo "Checking required environment variables..."
-if [ -z "$MINECRAFT_SERVER_APP_PORT" ] || [ -z "$MINECRAFT_SERVER_RCON_PORT" ]; then
-    echo "Error: MINECRAFT_SERVER_APP_PORT and MINECRAFT_SERVER_RCON_PORT must be set in your environment."
-    exit 1000
-fi
-
-if [ -z "$RCON_PASSWORD" ]; then
-    echo "Error: RCON_PASSWORD must be set in your environment."
-    exit 1001
-fi
-echo "Required environment variables found."
-
 # --- .env File Generation ---
 
 echo "Generating .env file..."
@@ -199,8 +191,8 @@ ENV_CONTENT+="SERVER_PORT=25565\n" # Default server port
 ENV_CONTENT+="VERSION=${MC_VERSION}\n"
 ENV_CONTENT+="\n"
 ENV_CONTENT+="# Port Configuration\n"
-ENV_CONTENT+="MINECRAFT_SERVER_APP_PORT=${MINECRAFT_SERVER_APP_PORT}\n"
-ENV_CONTENT+="MINECRAFT_SERVER_RCON_PORT=${MINECRAFT_SERVER_RCON_PORT}\n"
+ENV_CONTENT+="MINECRAFT_SERVER_APP_PORT=25565\n"
+ENV_CONTENT+="MINECRAFT_SERVER_RCON_PORT=25575\n"
 ENV_CONTENT+="\n"
 
 # Add type-specific configuration
