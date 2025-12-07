@@ -121,13 +121,16 @@ cd /var/www/minecraft-server/configurations/
 sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type> -r <ram_server> -p <password>
 
 # Example
-sudo bash ./install.sh -v 1.20.1 -m survival -t forge -r 12G -p 941480149401
+sudo bash ./install.sh -v 1.20.1 -m survival -t forge -r 12G -p *************
 ```
 
 **Note:**
 - `-v` `<minecraft_version>`: The target Minecraft version (e.g., 1.20.1, 1.20.6, 1.21.5). This must match the version of the forge-installer.jar you placed in ./server/.
 - `-m` `<modpack_name>`: A name for your modpack (e.g., forge-custom, my-awesome-mods). Used for internal naming.
 - `-t` `<server_type>`: The type of server (e.g., survival, creative).
+- `-r` `<ram_server>`: The amount of RAM to allocate to the server (e.g., 8G, 12G).
+- `-p` `<password>`: The RCON password for remote console access.
+- All options are required unless otherwise specified.
 
 ---
 ## Local Deployment
