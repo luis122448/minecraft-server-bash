@@ -24,7 +24,7 @@ This project is a Minecraft Forge Server that runs in a Docker container. The se
 cd /opt
 
 sudo apt-get update
-sudo apt-get install gcc build-essential make
+sudo apt-get install gcc build-essential make zip unzip tree
 
 # Clone the repository
 sudo git clone https://github.com/Tiiffi/mcrcon.git
@@ -42,7 +42,7 @@ mcrcon -help
 ```bash
 cd /opt
 
-sudo pacman -S gcc make git
+sudo pacman -S gcc make git zip unzip tree
 
 # Clone the repository
 sudo git clone https://github.com/Tiiffi/mcrcon.git
