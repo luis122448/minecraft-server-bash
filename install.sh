@@ -308,7 +308,7 @@ if [ "$MC_TYPE" == "forge" ]; then
     if [ -d "./mods" ]; then
         # This path '/var/www/minecraft-server/volumes/data/server/nogui/mods' is specific.
         # Ensure this matches where your Forge Docker image expects mods.
-        MODS_TARGET_DIR="$SERVER_DIR/volumes/data/server/nogui/mods"
+        MODS_TARGET_DIR="$SERVER_DIR/volumes/data/mods"
         echo "Target mods directory: $MODS_TARGET_DIR"
 
         # Clear existing mods if directory exists

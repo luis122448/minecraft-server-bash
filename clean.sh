@@ -31,7 +31,7 @@ fi
 echo ""
 echo "Stopping Minecraft server..."
 # Use docker-compose down to stop and remove the container
-docker compose down || { echo "Warning: Failed to stop the container. It might not be running."; }
+sudo docker compose down || { echo "Warning: Failed to stop the container. It might not be running."; }
 echo "Server stopped."
 
 echo "Cleaning server data..."
