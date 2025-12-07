@@ -3,6 +3,7 @@
 *.pem
 *.cert
 *.key
+*.jar
 tunnel/minecraft-tunnel.service
 mcrcon/*
 mods/*.jar

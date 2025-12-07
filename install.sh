@@ -88,7 +88,7 @@ prompt_input() {
 source /etc/environment || echo "Warning: Could not source /etc/environment"
 
 # --- Argument Parsing ---
-while getopts ":v:m:t:h:r" opt; do
+while getopts ":v:m:t:h:r:p:" opt; do
     case $opt in
         v)
             MC_VERSION="$OPTARG"
@@ -148,12 +148,17 @@ if [ -z "$MC_TYPE" ]; then
     prompt_input "Enter server type (vanilla or forge)" MC_TYPE "vanilla forge" "vanilla"
 fi
 
+# Prompt for RAM
+if [ -z "$RAM_SERVER" ]; then
+    prompt_input "Enter RAM allocation for server (e.g., 2G, 4G)" RAM_SERVER "" "4G"
+fi
+
 echo ""
 echo "--- Configuration Summary ---"
 echo "Version: $MC_VERSION"
 echo "Mode:    $MC_MODE"
 echo "Type:    $MC_TYPE"
-echo "RAM:     $RAM_SERVER"
+echo "Ram:     $RAM_SERVER"
 echo "---------------------------"
 echo ""
 
@@ -161,9 +166,9 @@ echo ""
 
 # Change owner of the directory
 # Note: Running this with sudo might require password. Ensure script is run as root or with appropriate sudoers config.
-echo "Setting ownership for $SERVER_DIR..."
-sudo chown -R "$USER":"$USER" "$SERVER_DIR" || { echo "Error: Failed to set ownership. Check permissions or run with sudo."; exit 1; }
-echo "Ownership set."
+# echo "Setting ownership for $SERVER_DIR..."
+# sudo chown -R "$USER":"$USER" "$SERVER_DIR" || { echo "Error: Failed to set ownership. Check permissions or run with sudo."; exit 1; }
+# echo "Ownership set."
 
 # Create directories if not exists
 echo "Ensuring necessary directories exist..."
@@ -287,7 +292,7 @@ if [ -d "./server" ]; then
     mkdir -p "$SERVER_DIR/volumes/data/mods" || { echo "Error: Failed to create data/mods directory in volumes."; exit 1; }
 
     echo "Copying server.zip to volumes/data/mods..."
-    cp -r ./server/server.zip "$SERVER_DIR/volumes/data/mods/server.zip" || { echo "Error: Failed to copy server.zip."; exit 1; }
+    cp -rv ./server/server.zip "$SERVER_DIR/volumes/data/mods/server.zip" || { echo "Error: Failed to copy server.zip."; exit 1; }
 
     echo "Removing temporary server.zip..."
     rm -rf ./server/server.zip || echo "Warning: Failed to remove temporary server.zip."
@@ -315,8 +320,8 @@ if [ "$MC_TYPE" == "forge" ]; then
         echo "Creating $MODS_TARGET_DIR..."
         mkdir -p "$MODS_TARGET_DIR" || { echo "Error: Failed to create mods target directory."; exit 1; }
 
-        echo "Copying ./mods to $MODS_TARGET_DIR..."
-        cp -r ./mods/* "$MODS_TARGET_DIR/" || echo "Warning: Failed to copy mods. Ensure ./mods contains mod files/directories."
+        echo "Copying ./mods/*.jar to $MODS_TARGET_DIR..."
+        cp -rv ./mods/*.jar "$MODS_TARGET_DIR/" || echo "Warning: Failed to copy mods. Ensure ./mods contains mod files/directories."
         echo "Mod copying complete."
     else
         echo "Warning: Local ./mods directory not found. Skipping mod copying."
@@ -331,7 +336,7 @@ if [ -f "./resources/icon.png" ]; then
     ICON_TARGET_DIR="$SERVER_DIR/volumes/data"
     echo "Target icon directory: $ICON_TARGET_DIR"
     mkdir -p "$ICON_TARGET_DIR" # Ensure target directory exists
-    cp -r ./resources/icon.png "$ICON_TARGET_DIR/icon.png" || echo "Warning: Failed to copy server icon."
+    cp -rv ./resources/icon.png "$ICON_TARGET_DIR/icon.png" || echo "Warning: Failed to copy server icon."
     echo "Server icon copied."
 else
     echo "Warning: Local ./resources/icon.png not found. Skipping icon copying."

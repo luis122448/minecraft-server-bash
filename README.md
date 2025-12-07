@@ -121,7 +121,7 @@ cd /var/www/minecraft-server/configurations/
 sudo bash ./install.sh -v <minecraft_version> -m <modpack_name> -t <server_type> -r <ram_server> -p <password>
 
 # Example
-sudo bash ./install.sh -v 1.20.1 -m survival -t vanilla -r 12G -p 941480149401
+sudo bash ./install.sh -v 1.20.1 -m survival -t forge -r 12G -p 941480149401
 ```
 
 **Note:**
